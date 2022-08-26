@@ -1,0 +1,66 @@
+{%extends 'social/base.html'%}
+{% load static %}
+
+{%block home%}
+	<section class="donors">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="donors_input">
+                            <h2>DONATION NOW</h2>
+                            <form action="#" method="post">
+                                <p class="amount">
+                                    <label for="usd">AMOUNT : </label>
+                                    <input type="radio" name="usd" id="usd" checked>20usd
+                                    <input type="radio" name="usd" id="usd">50usd
+                                    <input type="radio" name="usd" id="usd">100usd </p>
+                                <p class="type">
+                                    <label for="type">TYPE : </label>
+                                    <input type="radio" name="time" id="type" checked>One Time
+                                    <input type="radio" name="time" id="type">Monthly
+                                    <input type="radio" name="time" id="type">Yearly <br>
+                                </p>
+                                <h5>
+                                    <input type="text" placeholder="Name">
+                                    <input type="email" placeholder="Email">
+                                </h5>
+                                <h4>
+                                    <select>
+                                    <option>I Want To Donate For 1</option>
+                                    <option>I Want To Donate For 2</option>
+                                    <option>I Want To Donate For 3</option>
+                                </select>
+                                </h4>
+                                <input type="submit" value="DONATION NOW">
+                            </form>
+                        </div>
+                        <div class="donors_image">
+                            <h2>FEATURED DONORS</h2>
+                            <div class="donors_featured owl-carousel owl-theme">
+                                <div class="item">
+                                    <img src="{%static "img/donors_featured_one.jpg"%}" alt="">
+                                    <h3>Kenneth J. Garnica</h3>
+                                    <p>Donated Amount : <span>220 USD</span> </p>
+                                </div>
+                                <div class="item">
+                                    <img src="{%static "img/donors_featured_one.jpg"%}" alt="">
+                                    <h3>Kenneth J. Garnica</h3>
+                                    <p>Donated Amount : <span>220 USD</span> </p>
+                                </div>
+                                <div class="item">
+                                    <img src="{%static "img/donors_featured_one.jpg"%}" alt="">
+                                    <h3>Kenneth J. Garnica</h3>
+                                    <p>Donated Amount : <span>220 USD</span> </p>
+                                </div>
+                                <div class="item">
+                                    <img src="{%static "img/donors_featured_one.jpg"%}" alt="">
+                                    <h3>Kenneth J. Garnica</h3>
+                                    <p>Donated Amount : <span>220 USD</span> </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+{%endblock%}
