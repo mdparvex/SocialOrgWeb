@@ -10,14 +10,26 @@ def register(request):
 def login(request):
     return render(request, 'social/login.html')
 
+def contact(request):
+    return render(request, 'social/contact.html')
+
+def causes(request):
+    return render(request, 'social/causes.html')
+
+def about(request):
+    return render(request, 'social/about.html')
+
 def profile(request):
     return render(request, 'social/profile.html')
 
 def donate(request):
     return render(request, 'social/donate.html')
 
-def volunteer(request):
-    return render(request, 'social/volunteer.html')
+def members(request):
+    return render(request, 'social/members.html')
+
+def volunteering(request):
+    return render(request, 'social/volunteering.html')
 
 def base(request):
     return render(request, 'social/base.html')

@@ -4,13 +4,13 @@
 {%block home%}
     <style>
         .user {
-        height: 600px;
+        height: 750px;
     }
 
     .user .user_input {
         background: #01d262 none repeat scroll 0 0;
         float: left;
-        height: 600px;
+        height: 750px;
         text-align: center;
         width: 100%;
     }
@@ -38,12 +38,13 @@
         width: 80%;
     }
 
-    .user .user_input h5 input[type="text"] {
+    .user .user_input h5 input[type="password"] {
         font-family: "Roboto", sans-serif;
         font-size: 15px;
         font-weight: 400;
         color: #fff;
         margin-right: 2%;
+        margin-left: 4%;
     }
 
     .user .user_input h5 input[type="email"] {
@@ -85,11 +86,12 @@
                                     <input type="password" name="password" placeholder="password">
                                 </h5>
                                 <h5>
-                                    <input type="possword" name="password1" placeholder="confirm password">
+                                    <input type="password" name="password1" placeholder="confirm password">
                                 </h5>
                              
                                 <input type="submit" value="Register NOW">
                             </form>
+                            <h2>Already Registered? <a href="{%url "login"%}">Login<a></h2>
                         </div>
                         
 

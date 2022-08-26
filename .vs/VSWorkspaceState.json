@@ -2,10 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\social",
+    "\\socialOrg",
     "\\social\\templates",
     "\\social\\templates\\social",
     "\\static"
   ],
-  "SelectedNode": "\\static\\js",
+  "SelectedNode": "\\social\\urls.py",
   "PreviewInSolutionExplorer": false
 }
