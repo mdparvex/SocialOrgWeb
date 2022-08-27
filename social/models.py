@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from django.db import models
 from django.contrib.auth import get_user_model
 # Create your models here.
@@ -6,6 +7,7 @@ User= get_user_model()
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, default=NULL)
     faceboo_link = models.CharField(max_length=50)
     attached_org_number = models.IntegerField(default=0)
     reffered_person_email = models.CharField(max_length=50)

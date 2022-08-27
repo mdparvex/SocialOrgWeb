@@ -38,7 +38,7 @@
         width: 80%;
     }
 
-    .user .user_input h5 input[type="email"] {
+    .user .user_input h5 input[type="username"] {
         font-family: "Roboto", sans-serif;
         font-size: 15px;
         font-weight: 400;
@@ -78,7 +78,7 @@
                         <div class="user_input">
                             <h2>LOGIN</h2>
                             {% for message in messages%}
-                                <h2 style:"text-color:red;">{{message}}</h5>
+                                <p style="color:red;">{{message}}</p>
                             {%endfor%}
                             <form action="" method="POST">
                             {%csrf_token%}
@@ -91,7 +91,7 @@
                                 
                                 <input type="submit" value="Login">
                             </form>
-                            <h2>Don't have account? <a href="{%url "register"%}">Register here<a></h2>
+                            <h2>Don't have account? <a href="{%url "register"%}">Signup here<a></h2>
                         </div>
                         
 

@@ -11,18 +11,26 @@ def index(request):
 def register(request):
     if request.method=="POST":
         username = request.POST['username']
-        fname= request.POST['fname']
-        lname= request.POST['lname']
         email= request.POST['email']
         password= request.POST['password']
         password1= request.POST['password1']
+
+        if len(username)<4:
+            messages.info(request, 'username is too sort')
+            return redirect('register')
+        if len(password)<7:
+            messages.info(request, 'password must be at least 8 character')
+            return redirect('register')
 
         if password==password1:
             if User.objects.filter(email=email).exists():
                 messages.info(request, 'Email already exist')
                 return redirect('register')
+            elif User.objects.filter(username=username).exists():
+                messages.info(request, 'username already exist')
+                return redirect('signup')
             else:
-                user = User.objects.create_user(username=username,first_name=fname, last_name=lname, email=email, password = password)
+                user = User.objects.create_user(username=username, email=email, password = password)
                 user.save()
                 return redirect('login')
     return render(request, 'social/register.html')
