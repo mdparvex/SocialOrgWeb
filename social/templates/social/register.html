@@ -4,13 +4,13 @@
 {%block home%}
     <style>
         .user {
-        height: 750px;
+        height: 100%;
     }
 
     .user .user_input {
         background: #01d262 none repeat scroll 0 0;
         float: left;
-        height: 750px;
+        height: 100%;
         text-align: center;
         width: 100%;
     }
@@ -25,7 +25,7 @@
         text-align: center;
     }
     .user .user_input h5 {
-    margin: 65px auto 0;
+    margin: 10px auto 0;
     max-width: 500px;
 }
 
@@ -36,6 +36,14 @@
         color: #fff;
         padding: 17px 20px;
         width: 80%;
+    }
+    .user .user_input h5 input[type="text"] {
+        font-family: "Roboto", sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        color: #fff;
+        margin-right: 2%;
+        margin-left: 4%;
     }
 
     .user .user_input h5 input[type="password"] {
@@ -78,7 +86,21 @@
                     <div class="col-md-12">
                         <div class="user_input">
                             <h2>REGISTER NOW</h2>
-                            <form action="#" method="POST">
+                            {% for message in messages%}
+                                <h2 style:"color:red;">{{message}}</h5>
+                            {%endfor%}
+                            
+                            <form action="" method="POST">
+                            {%csrf_token%}
+                                <h5>
+                                    <input type="text" name="username" placeholder="Enter username">
+                                </h5>
+                                <h5>
+                                    <input type="text" name="fname" placeholder="Enter your first name">
+                                </h5>
+                                <h5>
+                                    <input type="text" name="lname" placeholder="Enter your last name">
+                                </h5>
                                 <h5>
                                     <input type="email" name="email" placeholder="Email">
                                 </h5>
@@ -91,6 +113,7 @@
                              
                                 <input type="submit" value="Register NOW">
                             </form>
+                            
                             <h2>Already Registered? <a href="{%url "login"%}">Login<a></h2>
                         </div>
                         

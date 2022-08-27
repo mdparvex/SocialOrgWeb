@@ -4,13 +4,13 @@
 {%block home%}
     <style>
         .user {
-        height: 600px;
+        height: 100%;
     }
 
     .user .user_input {
         background: #01d262 none repeat scroll 0 0;
         float: left;
-        height: 600px;
+        height: 100%;
         text-align: center;
         width: 100%;
     }
@@ -77,9 +77,13 @@
                     <div class="col-md-12">
                         <div class="user_input">
                             <h2>LOGIN</h2>
-                            <form action="#" method="POST">
+                            {% for message in messages%}
+                                <h2 style:"text-color:red;">{{message}}</h5>
+                            {%endfor%}
+                            <form action="" method="POST">
+                            {%csrf_token%}
                                 <h5>
-                                    <input type="email" name="email" placeholder="Email">
+                                    <input type="username" name="username" placeholder="Enter Username">
                                 </h5>
                                 <h5>
                                     <input type="password" name="password" placeholder="password">
