@@ -78,16 +78,16 @@ def join(request):
         p = Profile(user=user, name=Uname,email=email, address=Uaddress, phone=Uphone, proffesion=Uprofession, photo=Uphoto, comment=Ucomment)
         p.save()
         return redirect('index')
-    
-    
-    return render(request, 'social/join.html')
-
-def profile(request):
+        
     try:
         pr = Profile.objects.get(user=request.user)
     except Profile.DoesNotExist:
         pr = None
-    return render(request, 'social/profile.html', {'pr':pr})
+    if pr is not None:
+        return render(request, 'social/profile.html', {'pr':pr})
+    
+    
+    return render(request, 'social/join.html')
 
 def causes(request):
     try:
@@ -101,6 +101,8 @@ def about(request):
         pr = Profile.objects.get(user=request.user)
     except Profile.DoesNotExist:
         pr = None
+
+
     return render(request, 'social/about.html', {'pr':pr})
 
 
@@ -119,6 +121,14 @@ def members(request):
     userprof = Profile.objects.all()
     
     return render(request, 'social/members.html', {'pr':pr, 'userprof':userprof})
+
+def profile(request,uid):
+    try:
+        pr = Profile.objects.get(pk=uid)
+    except Profile.DoesNotExist:
+        pr = None
+    
+    return render(request, 'social/profile.html', {'pr':pr})
 
 def volunteering(request):
     try:
