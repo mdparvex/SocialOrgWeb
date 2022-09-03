@@ -4,10 +4,11 @@
     "\\media",
     "\\social",
     "\\socialOrg",
+    "\\social\\migrations",
     "\\social\\templates",
     "\\social\\templates\\social",
     "\\static"
   ],
-  "SelectedNode": "\\social\\models.py",
+  "SelectedNode": "\\social\\views.py",
   "PreviewInSolutionExplorer": false
 }

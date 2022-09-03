@@ -1,3 +1,4 @@
+from re import U
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, auth
@@ -6,12 +7,15 @@ from .models import Profile, Payment
 
 # Create your views here.
 def index(request):
-    return render(request, 'social/index.html')
+    try:
+        pr = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        pr = None
+    return render(request, 'social/index.html', {'pr':pr})
 
 def register(request):
     if request.method=="POST":
         username = request.POST['username']
-        email= request.POST['email']
         password= request.POST['password']
         password1= request.POST['password1']
 
@@ -23,14 +27,11 @@ def register(request):
             return redirect('register')
 
         if password==password1:
-            if User.objects.filter(email=email).exists():
-                messages.info(request, 'Email already exist')
-                return redirect('register')
-            elif User.objects.filter(username=username).exists():
+            if User.objects.filter(username=username).exists():
                 messages.info(request, 'username already exist')
                 return redirect('signup')
             else:
-                user = User.objects.create_user(username=username, email=email, password = password)
+                user = User.objects.create_user(username=username, password = password)
                 user.save()
                 return redirect('login')
     return render(request, 'social/register.html')
@@ -54,27 +55,77 @@ def logout(request):
     auth.logout(request)
     return redirect('login')
 def contact(request):
-    return render(request, 'social/contact.html')
+    try:
+        pr = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        pr = None
+    return render(request, 'social/contact.html',{'pr':pr})
 
 @login_required
+def join(request):
+
+    if request.method=='POST':
+
+        user= User.objects.get(username=request.user.username)
+        Uname = request.POST['name']
+        email=request.POST['email']
+        Uaddress = request.POST['address']
+        Uphone = request.POST['phone']
+        Uprofession = request.POST['proffession']
+        Ucomment = request.POST['comment']
+        Uphoto = request.FILES.get('image')
+
+        p = Profile(user=user, name=Uname,email=email, address=Uaddress, phone=Uphone, proffesion=Uprofession, photo=Uphoto, comment=Ucomment)
+        p.save()
+        return redirect('index')
+    
+    
+    return render(request, 'social/join.html')
+
 def profile(request):
-    return render(request, 'social/profile.html')
+    try:
+        pr = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        pr = None
+    return render(request, 'social/profile.html', {'pr':pr})
 
 def causes(request):
-    return render(request, 'social/causes.html')
+    try:
+        pr = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        pr = None
+    return render(request, 'social/causes.html',{'pr':pr})
 
 def about(request):
-    return render(request, 'social/about.html')
+    try:
+        pr = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        pr = None
+    return render(request, 'social/about.html', {'pr':pr})
 
 
 def donate(request):
-    return render(request, 'social/donate.html')
+    try:
+        pr = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        pr = None
+    return render(request, 'social/donate.html', {'pr':pr})
 
 def members(request):
-    return render(request, 'social/members.html')
+    try:
+        pr = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        pr = None
+    userprof = Profile.objects.all()
+    
+    return render(request, 'social/members.html', {'pr':pr, 'userprof':userprof})
 
 def volunteering(request):
-    return render(request, 'social/volunteering.html')
+    try:
+        pr = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        pr = None
+    return render(request, 'social/volunteering.html', {'pr':pr})
 
 
 

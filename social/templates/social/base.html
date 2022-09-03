@@ -67,7 +67,11 @@
                                     <li><a href="{%url "about"%}">ABOUT US</a></li>
                                     <li><a href="{%url "causes"%}">CAUSES</a></li>
                                     <li><a href="{%url "members"%}">MEMBERS</a></li>
-                                    <li><a href="{%url "profile"%}">REGISTRATION</a></li>
+                                    {%if pr.email is None%}
+                                    <li><a href="{%url "join"%}">REGISTER</a></li>
+                                    {%else%}
+                                    <li><a href="{%url "profile"%}">PROFILE</a></li>
+                                    {%endif%}
                                     <li><a href="{%url "contact"%}">CONTACT</a></li>
                   
                                 </ul>

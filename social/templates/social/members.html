@@ -2,6 +2,62 @@
 {% load static %}
 
 {%block home%}
+<style>
+        .user {
+        height: 100%;
+    }
+
+    .user .user_input {
+        background: #01d262 none repeat scroll 0 0;
+        float: left;
+        height: 100%;
+        text-align: center;
+        width: 100%;
+        
+    }
+
+    .user .user_input h2 {
+        color: #fff;
+        font-family: "Roboto", sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        margin: 40px 0 50px;
+        text-align: center;
+    }
+    .user .user_input ul li h5 {
+        margin-top: 10px;
+        max-width: 20px;
+        padding-bottom: 4px;
+        padding-top: 4px;
+        padding-left: 50px;
+        color: white;
+
+}
+
+    </style>
+
+	<section class="user">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="user_input">
+                            <h2>MEMBER LIST</h2>
+                                <hr>
+                                <ul>
+                                {%for user in userprof%}
+                                    <li>
+                                    <a href="#"><h5>{{user.name}} </h5><a>
+                                    </li>
+                                {%endfor%}
+                                <ul>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <br>
     
 {%endblock%}
 

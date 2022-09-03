@@ -2,21 +2,22 @@
 {% load static %}
 
 {%block home%}
+<style>
     <style>
-        .user {
+    .donors {
         height: 100%;
     }
 
-    .user .user_input {
+    .donors .donors_input {
         background: #01d262 none repeat scroll 0 0;
         float: left;
-        height: 100%;
+        height: 800px;
         text-align: center;
-        width: 100%;
+        width: 50%;
     }
 
-    .user .user_input h2,
-    .user .user_input h2 {
+    .donors .donors_input h2,
+    .donors .donors_image h2 {
         color: #fff;
         font-family: "Roboto", sans-serif;
         font-size: 22px;
@@ -24,108 +25,96 @@
         margin: 75px 0 50px;
         text-align: center;
     }
-    .user .user_input h5 {
-    margin: 10px auto 0;
-    max-width: 500px;
-}
 
-    .user .user_input h5 input {
-        background: #01d262 none repeat scroll 0 0;
-        border: 1px solid #fff;
+    .donors .donors_image h2 {
+        color: #000;
+    }
+
+    .donors .donors_input h4 {
+        margin-top: 20px;
+        text-align: left;
+        color: white;
+        padding-left: 50px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    .donors .donors_image {
+        background: #eceff1 none repeat scroll 0 0;
+        float: left;
+        width: 50%;
+        height: 800px;
+    }
+
+    .donors .donors_image .item {
+        text-align: center;
+    }
+
+    .donors .donors_image .item img {
         border-radius: 10px;
-        color: #fff;
-        padding: 17px 20px;
-        width: 80%;
-    }
-    .user .user_input h5 textarea {
-        background: #01d262 none repeat scroll 0 0;
-        border: 1px solid #fff;
-        border-radius: 10px;
-        color: #fff;
-        padding: 17px 20px;
-        width: 80%;
-        height: 120px;
-        margin-right: 7px;
+        margin: 0 auto 30px;
+        width: 300px;
+        box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.15);
     }
 
-    .user .user_input h5 input[type="text"] {
+    .donors .donors_image .item h3 {
         font-family: "Roboto", sans-serif;
-        font-size: 15px;
-        font-weight: 400;
-        color: #fff;
-        margin-right: 2%;
-    }
-    .user .user_input h5 input[type="file"] {
-        font-family: "Roboto", sans-serif;
-        font-size: 15px;
-        font-weight: 400;
-        color: #fff;
-        margin-right: 2%;
-        margin-left: 10%;
-        padding-left:20%;
-    }
-    
-
-    .user .user_input h5 input[type="email"] {
-        font-family: "Roboto", sans-serif;
-        font-size: 15px;
-        font-weight: 400;
-        color: #fff;
-        margin-left: 2%;
-    }
-
-    .user .user_input input[type="submit"] {
-        background: #fff none repeat scroll 0 0;
-        border: 2px solid #01d262;
-        border-radius: 10px;
-        color: #01d262;
-        font-family: "Roboto", sans-serif;
-        font-size: 15px;
+        font-size: 20px;
         font-weight: 500;
-        margin-top: 45px;
-        padding: 15px 40px;
-    }
-    .user .user_input input[type="submit"]:hover{
-        background-color: green;
     }
 
-    </style>
+    .donors .donors_image .item p {
+        font-family: "Roboto", sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        margin: 10px 0 75px;
+    }
+</style>
+</style>
 
-	<section class="user">
+	<section class="donors">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="user_input">
-                            <h2>REGISTER NOW</h2>
-                            <form action="#" method="POST">
-                                <h5>
-                                    <input type="text" name="name" placeholder="Enter your name">
-                                </h5>
-                                <h5>
-                                    <input type="text" name="address" placeholder="Enter your address">
-                                </h5>
-                                <h5>
-                                    <input type="text" name="phone" placeholder="Enter your phone">
-                                </h5>
-                                
-                                <h5>
-                                    <input type="text" name="proffession" placeholder="Enter your proffession">
-                                </h5>
-                                <h5>
-                                    <textarea name="comment" placeholder="Why you want to become a volunteer?"></textarea>
-                                </h5>
-                                <h5>
-                                    <label for="image">Upload your picture</label>
-                                    <input type="file" name="image" placeholder="Your photo" >
-                                </h5>
-                             
-                                <input type="submit" value="BECOME A VOLUNTEER">
-                            </form>
+                        <div class="donors_input">
+                            <h2>Your Details</h2>
+                            <hr>
+                            <h4>Name: {{pr.name}}</h4>
+                            <h4>Email: {{pr.email}}</h4>
+                            <h4>Address: {{pr.address}}</h4>
+                            <h4>Phone: {{pr.phone}}</h4>
+                            <h4>Proffession: {{pr.proffesion}}</h4>
+                            <h4>Why I join?: {{pr.comment}}</h4>
                         </div>
                         
-
+                        <div class="donors_image">
+                            <h2>Name : {{pr.name}}</h2>
+                            <div class="donors_featured owl-carousel owl-theme">
+                                <div class="item">
+                                    <img src="{{pr.photo.url}}" alt="">
+                                </div>
+                            </div>
+                                <h2>Donated Amount : 220 Taka 
+                                    <br>
+                                    <a href="#">Donation History<a>
+                                </h2>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
 {%endblock%}
