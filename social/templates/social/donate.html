@@ -2,33 +2,190 @@
 {% load static %}
 
 {%block home%}
+<style>
+    .donors {
+        height: 800px;
+    }
+
+    .donors .donors_input {
+        background: #01d262 none repeat scroll 0 0;
+        float: left;
+        height: 800px;
+        text-align: center;
+        width: 50%;
+    }
+
+    .donors .donors_input h2,
+    .donors .donors_image h2 {
+        color: #fff;
+        font-family: "Roboto", sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        margin: 75px 0 50px;
+        text-align: center;
+    }
+
+    .donors .donors_image h2 {
+        color: #000;
+    }
+
+    .donors .donors_input p {
+        color: #fff;
+        font-family: "Roboto", sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        margin: 35px 0;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .donors .donors_input p input {
+        margin-left: 20px;
+        margin-right: 10px;
+    }
+
+    .donors .donors_input h5 {
+        margin: 65px auto 0;
+        max-width: 800px;
+    }
+
+    .donors .donors_input h5 input {
+        background: #01d262 none repeat scroll 0 0;
+        border: 1px solid #fff;
+        border-radius: 10px;
+        color: #fff;
+        padding: 17px 20px;
+        width: 50%;
+    }
+
+    .donors .donors_input h5 input[type="text"] {
+        font-family: "Roboto", sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        color: #fff;
+        margin-right: 2%;
+        
+    }
+
+    .donors .donors_input h5 input[type="date"] {
+        font-family: "Roboto", sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        color: #fff;
+        margin-left: 0%;
+    }
+
+    .donors .donors_input input[type="submit"] {
+        background: #fff none repeat scroll 0 0;
+        border: 2px solid #01d262;
+        border-radius: 10px;
+        color: #01d262;
+        font-family: "Roboto", sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        margin-top: 45px;
+        padding: 15px 40px;
+    }
+
+    .donors .donors_input h4 {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .donors .donors_input h4 select {
+        width: 500px;
+        background: #01d262 none repeat scroll 0 0;
+        border: none;
+        padding: 17px 20px;
+        border-radius: 10px;
+        border: 1px solid #fff;
+        font-family: "Roboto", sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        color: #fff;
+    }
+
+    .donors .donors_image {
+        background: #eceff1 none repeat scroll 0 0;
+        float: left;
+        width: 50%;
+        height: 600px;
+    }
+
+    .donors .donors_image .item {
+        text-align: center;
+    }
+
+    .donors .donors_image .item img {
+        border-radius: 10px;
+        margin: 0 auto 30px;
+        width: 385px;
+        box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.15);
+    }
+
+    .donors .donors_image .item h3 {
+        font-family: "Roboto", sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+    .donors .donors_image .item p {
+        font-family: "Roboto", sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        margin: 10px 0 75px;
+    }
+
+    .donors .donors_image .item p span {
+        color: #01d262;
+    }
+
+    .donors .donors_image .owl-theme .owl-nav {
+        margin-top: 10px;
+        display: none;
+    }
+
+    .donors .donors_image .owl-theme .owl-dots .owl-dot.active span,
+    .donors .donors_image .owl-theme .owl-dots .owl-dot:hover span {
+        background: #01d262 none repeat scroll 0 0;
+        border: 1px solid #01d262;
+    }
+
+    .donors .donors_image .owl-theme .owl-dots .owl-dot span {
+        border: 1px solid #7b7e80;
+        height: 12px;
+        width: 12px;
+    }
+
+</style>
 	<section class="donors">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="donors_input">
                             <h2>DONATION NOW</h2>
-                            <form action="#" method="post">
-                                <p class="amount">
-                                    <label for="usd">AMOUNT : </label>
-                                    <input type="radio" name="usd" id="usd" checked>20bdt
-                                    <input type="radio" name="usd" id="usd">50bdt
-                                    <input type="radio" name="usd" id="usd">100bdt </p>
-                                <p class="type">
-                                    <label for="type">TYPE : </label>
-                                    <input type="radio" name="time" id="type" checked>One Time
-                                    <input type="radio" name="time" id="type">Monthly
-                                    <input type="radio" name="time" id="type">Yearly <br>
-                                </p>
+                            {% for message in messages%}
+                                <p style="color:green;">{{message}}</p>
+                            {%endfor%}
+                            <form action="" method="POST" enctype="multipart/form-data">
+                                {%csrf_token%}
                                 <h5>
-                                    <input type="text" placeholder="Name">
-                                    <input type="email" placeholder="Email">
+                                    <input type="text" name="paymentway" placeholder="Enter you payment way Ex.Bkash, Card">
+                                </h5>
+                                <h5>
+                                    <input type="text" name="trxid" placeholder="Enter payment TrxId">
+                                </h5>
+                                <h5>
+                                    <input type="number" name="ammount" placeholder="Enter ammount">
+                                </h5>
+                                <h5>
+                                    <input type="date" name="date">
                                 </h5>
                                 <h4>
-                                    <select>
-                                    <option>I Want To Donate For 1</option>
-                                    <option>I Want To Donate For 2</option>
-                                    <option>I Want To Donate For 3</option>
+                                    <select name="eventname">
+                                    {%for e in event%}
+                                    <option>{{e.event_name}}</option>
+                                    {%endfor%}
                                 </select>
                                 </h4>
                                 <input type="submit" value="DONATION NOW">
@@ -63,4 +220,5 @@
                 </div>
             </div>
         </section>
+        <br>
 {%endblock%}

@@ -3,13 +3,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Profile, Payment
+from .models import Profile, Payment, Event
 
 # Create your views here.
 def index(request):
     try:
         pr = Profile.objects.get(user=request.user)
-    except Profile.DoesNotExist:
+    except:
         pr = None
     return render(request, 'social/index.html', {'pr':pr})
 
@@ -57,7 +57,7 @@ def logout(request):
 def contact(request):
     try:
         pr = Profile.objects.get(user=request.user)
-    except Profile.DoesNotExist:
+    except: #Profile.DoesNotExist
         pr = None
     return render(request, 'social/contact.html',{'pr':pr})
 
@@ -81,7 +81,7 @@ def join(request):
         
     try:
         pr = Profile.objects.get(user=request.user)
-    except Profile.DoesNotExist:
+    except:
         pr = None
     if pr is not None:
         return render(request, 'social/profile.html', {'pr':pr})
@@ -92,7 +92,7 @@ def join(request):
 def causes(request):
     try:
         pr = Profile.objects.get(user=request.user)
-    except Profile.DoesNotExist:
+    except:
         pr = None
     return render(request, 'social/causes.html',{'pr':pr})
 
@@ -107,16 +107,45 @@ def about(request):
 
 
 def donate(request):
+    event = Event.objects.all()
     try:
         pr = Profile.objects.get(user=request.user)
-    except Profile.DoesNotExist:
+    except:
         pr = None
-    return render(request, 'social/donate.html', {'pr':pr})
+    if request.method=='POST':
+        user = User.objects.get(username=request.user.username)
+        paymentway = request.POST['paymentway']
+        trxid = request.POST['trxid']
+        ammount = request.POST['ammount']
+        date = request.POST['date']
+
+        if request.POST['eventname']=='ORPHAN NEED YOUR HELP':
+            event=Event.objects.get(id=1)
+            event.ammount_raised = int(event.ammount_raised)+int(ammount)
+        elif request.POST['eventname']=='POOR IN SOCITY NEED YOUR HELP':
+            event=Event.objects.get(id=2)
+            event.ammount_raised = int(event.ammount_raised)+int(ammount)
+        elif request.POST['eventname']=='EID FASTIVE DONATION':
+            event=Event.objects.get(id=3)
+            event.ammount_raised = int(event.ammount_raised)+int(ammount)
+        else:
+            event=Event.objects.get(id=4)
+            event.ammount_raised = int(event.ammount_raised)+int(ammount)
+        pr.total_donated = int(pr.total_donated)+int(ammount)
+        d= Payment(user=user, event=event, payment_way=paymentway, trxid=trxid, ammount=ammount, date=date)
+        d.save()
+        pr.save()
+        event.save()
+        messages.info(request, 'Donation sucessfill !!!')
+        return redirect('donate')
+        
+
+    return render(request, 'social/donate.html', {'pr':pr, "event":event})
 
 def members(request):
     try:
         pr = Profile.objects.get(user=request.user)
-    except Profile.DoesNotExist:
+    except:
         pr = None
     userprof = Profile.objects.all()
     
@@ -125,7 +154,7 @@ def members(request):
 def profile(request,uid):
     try:
         pr = Profile.objects.get(pk=uid)
-    except Profile.DoesNotExist:
+    except:
         pr = None
     
     return render(request, 'social/profile.html', {'pr':pr})
@@ -133,7 +162,7 @@ def profile(request,uid):
 def volunteering(request):
     try:
         pr = Profile.objects.get(user=request.user)
-    except Profile.DoesNotExist:
+    except:
         pr = None
     return render(request, 'social/volunteering.html', {'pr':pr})
 

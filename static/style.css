@@ -61,7 +61,6 @@
 .nav>li>a:focus {
     text-decoration: none;
     background-color: transparent;
-
 }
 
 .main-logo {
@@ -624,11 +623,6 @@
     text-align: center;
 }
 
-/*register*/
-
-
-/*register end*/
-
 .donors .donors_image h2 {
     color: #000;
 }
@@ -692,7 +686,7 @@
 
 .donors .donors_input h4 {
     margin-top: 20px;
-    text-align: left;
+    text-align: center;
 }
 
 .donors .donors_input h4 select {

@@ -18,7 +18,7 @@
 
     .donors .donors_input h2,
     .donors .donors_image h2 {
-        color: #fff;
+        color: black;
         font-family: "Roboto", sans-serif;
         font-size: 22px;
         font-weight: 500;
@@ -86,6 +86,8 @@
                             <h4>Phone: {{pr.phone}}</h4>
                             <h4>Proffession: {{pr.proffesion}}</h4>
                             <h4>Why I join?: {{pr.comment}}</h4>
+                            <hr>
+                            <a href="#"><h2>Edit Profile</h2><a>
                         </div>
                         
                         <div class="donors_image">
@@ -95,7 +97,7 @@
                                     <img src="{{pr.photo.url}}" alt="">
                                 </div>
                             </div>
-                                <h2>Donated Amount : 220 Taka 
+                                <h2>Donated Amount : {{pr.total_donated}} Taka 
                                     <br>
                                     <a href="#">Donation History<a>
                                 </h2>
