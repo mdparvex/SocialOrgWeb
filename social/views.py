@@ -119,24 +119,16 @@ def donate(request):
         ammount = request.POST['ammount']
         date = request.POST['date']
 
-        if request.POST['eventname']=='ORPHAN NEED YOUR HELP':
-            event=Event.objects.get(id=1)
-            event.ammount_raised = int(event.ammount_raised)+int(ammount)
-        elif request.POST['eventname']=='POOR IN SOCITY NEED YOUR HELP':
-            event=Event.objects.get(id=2)
-            event.ammount_raised = int(event.ammount_raised)+int(ammount)
-        elif request.POST['eventname']=='EID FASTIVE DONATION':
-            event=Event.objects.get(id=3)
-            event.ammount_raised = int(event.ammount_raised)+int(ammount)
-        else:
-            event=Event.objects.get(id=4)
-            event.ammount_raised = int(event.ammount_raised)+int(ammount)
+        for e in event:
+            if e.event_name == request.POST['eventname']:
+                event=Event.objects.get(event_name=e.event_name)
+                event.ammount_raised = int(event.ammount_raised)+int(ammount)
         pr.total_donated = int(pr.total_donated)+int(ammount)
         d= Payment(user=user, event=event, payment_way=paymentway, trxid=trxid, ammount=ammount, date=date)
         d.save()
         pr.save()
         event.save()
-        messages.info(request, 'Donation sucessfill !!!')
+        messages.info(request, 'Donation sucessfull !!!')
         return redirect('donate')
         
 
@@ -156,8 +148,17 @@ def profile(request,uid):
         pr = Profile.objects.get(pk=uid)
     except:
         pr = None
-    
-    return render(request, 'social/profile.html', {'pr':pr})
+    user=User.objects.get(username=pr.user)
+    return render(request, 'social/profile.html', {'pr':pr, 'user':user})
+
+def history(request, id):
+    try:
+        pr = Profile.objects.get(user=request.user)
+    except:
+        pr = None
+    user = User.objects.get(pk=id)
+    payment = Payment.objects.filter(user=user)
+    return render(request, 'social/history.html', {'pr':pr, 'payment':payment ,'user':user})
 
 def volunteering(request):
     try:

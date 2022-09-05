@@ -78,29 +78,14 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="donors_input">
-                            <h2>Your Details</h2>
+                            <h2>Donation History</h2>
                             <hr>
-                            <h4>Name: {{pr.name}}</h4>
-                            <h4>Email: {{pr.email}}</h4>
-                            <h4>Address: {{pr.address}}</h4>
-                            <h4>Phone: {{pr.phone}}</h4>
-                            <h4>Proffession: {{pr.proffesion}}</h4>
-                            <h4>Why I join?: {{pr.comment}}</h4>
-                            <hr>
-                            <a href="#"><h2>Edit Profile</h2><a>
+                            {% for p in payment%}
+                                <h4>{{p.ammount}}</h4>
+                            {%endfor%}
+                            
                         </div>
-                        
-                        <div class="donors_image">
-                            <h2>Name : {{pr.name}}</h2>
-                            <div class="donors_featured owl-carousel owl-theme">
-                                <div class="item">
-                                    <img src="{{pr.photo.url}}" alt="">
-                                </div>
-                            </div>
-                                <h2>Donated Amount : {{pr.total_donated}} Taka <br><a href="{%url "history" user.id%}"><h5>history </h5><a></h2>
-                                
-                                
-                        </div>
+                
                     </div>
                 </div>
             </div>

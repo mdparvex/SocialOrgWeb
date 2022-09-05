@@ -10,6 +10,7 @@ urlpatterns = [
     path('join', views.join, name="join"),
     path('members', views.members, name="members"),
     path('<int:uid>', views.profile, name='profile'),
+    path('history/<int:id>', views.history, name='history'),
 
     path('contact', views.contact, name="contact"),
     path('about', views.about, name="about"),
