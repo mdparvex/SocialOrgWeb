@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Profile, Payment, Event
+from .models import Profile, Payment, Event, Contact
 
 # Create your views here.
 def index(request):
@@ -12,7 +12,7 @@ def index(request):
     except:
         pr = None
     argentDonation = Event.objects.get(event_name='POOR IN SOCITY NEED YOUR HELP')
-    progress = (int(argentDonation.ammount_raised)/50000)*100
+    progress = round(((int(argentDonation.ammount_raised)/50000)*100),2)
      
     contex = {
             'pr':pr, 
@@ -37,7 +37,7 @@ def register(request):
         if password==password1:
             if User.objects.filter(username=username).exists():
                 messages.info(request, 'username already exist')
-                return redirect('signup')
+                return redirect('register')
             else:
                 user = User.objects.create_user(username=username, password = password)
                 user.save()
@@ -77,9 +77,16 @@ def join(request):
         Ucomment = request.POST['comment']
         Uphoto = request.FILES.get('image')
 
+        if (len(Uname) and len(email) and len(Uaddress) and len(Uphone) and len(Uprofession))<5:
+            messages.info(request, 'Information wrong or any field is blank')
+            return redirect('join')
+        if Uphoto is None:
+            messages.info(request, 'Photo must be upload')
+            return redirect('join')
+
         p = Profile(user=user, name=Uname,email=email, address=Uaddress, phone=Uphone, proffesion=Uprofession, photo=Uphoto, comment=Ucomment)
         p.save()
-        return redirect('index')
+        return redirect('join')
         
     try:
         pr = Profile.objects.get(user=request.user)
@@ -110,6 +117,13 @@ def donate(request):
             if e.event_name == request.POST['eventname']:
                 event=Event.objects.get(event_name=e.event_name)
                 event.ammount_raised = int(event.ammount_raised)+int(ammount)
+        if pr is None:
+            d= Payment(user=user, event=event, payment_way=paymentway, trxid=trxid, ammount=ammount, date=date)
+            d.save()
+            event.save()
+            messages.info(request, 'Donation sucessfull !!!')
+            return redirect('donate')
+            
         pr.total_donated = int(pr.total_donated)+int(ammount)
         d= Payment(user=user, event=event, payment_way=paymentway, trxid=trxid, ammount=ammount, date=date)
         d.save()
@@ -138,8 +152,8 @@ def profile(request,uid):
         pr = Profile.objects.get(pk=uid)
     except:
         pr = None
-    #user=User.objects.get(username=request.user.username)
-    return render(request, 'social/profile.html', {'pr':pr})
+    user=User.objects.get(username=pr.user)
+    return render(request, 'social/profile.html', {'pr':pr, 'user':user})
 
 def history(request, id):
     try:
@@ -179,10 +193,10 @@ def causes(request):
     ammount3 = Event.objects.get(event_name='EID FASTIVE DONATION').ammount_raised
     ammount4 = Event.objects.get(event_name='MADRASHA NEED YOUR HELP').ammount_raised
 
-    raised1 = (ammount1/50000)*100
-    raised2 = (ammount2/50000)*100
-    raised3 = (ammount3/50000)*100
-    raised4 = (ammount4/50000)*100
+    raised1 = round(((ammount1/50000)*100),2)
+    raised2 = round(((ammount2/50000)*100),2)
+    raised3 = round(((ammount3/50000)*100),2)
+    raised4 = round(((ammount4/50000)*100),2)
 
     context = {
         'pr':pr,
@@ -216,6 +230,19 @@ def contact(request):
         pr = Profile.objects.get(user=request.user)
     except: #Profile.DoesNotExist
         pr = None
+    if request.method=='POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+
+        c = Contact(name=name, email=email, subject=subject, massege=message)
+        c.save()
+        if (len(name) and len(email) and len(subject) and len(message))<3:
+            messages.info(request, 'Any field is blank or too small !!!')
+            return redirect('contact')
+        messages.info(request, 'Your massege has been sent !!!')
+        return redirect('contact')
 
     return render(request, 'social/contact.html',{'pr':pr})
 

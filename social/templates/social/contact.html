@@ -4,13 +4,13 @@
 {%block home%}
     <style>
         .user {
-        height: 800px;
+        height: 850px;
     }
 
     .user .user_input {
         background: #01d262 none repeat scroll 0 0;
         float: left;
-        height: 800px;
+        height: 850px;
         text-align: center;
         width: 100%;
     }
@@ -96,6 +96,9 @@
                     <div class="col-md-12">
                         <div class="user_input">
                             <h2>Get In Touch <br> Contact for any query</h2>
+                            {% for message in messages%}
+                                <p style="color:green;">{{message}}</p>
+                            {%endfor%}
                             <form action="" method="POST">
                             {%csrf_token%}
                                 <h5>

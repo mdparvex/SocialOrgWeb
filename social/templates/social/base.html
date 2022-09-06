@@ -25,6 +25,35 @@
         .header .header-top .join-us p a:hover{
             background-color:green;
         }
+        .header .header-bottom .menu ul li a {
+        color: #000;
+        font-family: "Roboto", sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        margin-right: 4px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+        .nav>li>a:hover,
+        .nav>li>a:focus {
+            text-decoration: none;
+            background-color: #01d262;
+        }
+        .main-logo {
+                margin: 29px 0;
+            }
+
+            .main-logo>img {
+                display: inline-block;
+            }
+
+            .main-logo>h2 {
+                display: inline-block;
+                font-size: 15px;
+                font-weight: bold;
+                margin-left: 11px;
+                color: #01d262;
+}
         
     </style>
     <div class="wrapper">
@@ -72,6 +101,7 @@
                                     {%else%}
                                     <li><a href="{%url "join"%}">PROFILE</a></li>
                                     {%endif%}
+                                    <li><a href="#">BRANCHES</a></li>
                                     <li><a href="{%url "contact"%}">CONTACT</a></li>
                   
                                 </ul>

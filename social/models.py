@@ -1,3 +1,4 @@
+from email.policy import default
 from os import name
 from django.db import models
 from django.contrib.auth import get_user_model
@@ -14,7 +15,7 @@ class Profile(models.Model):
     address = models.CharField(max_length=150)
     phone = models.CharField(max_length=11)
     proffesion = models.CharField(max_length=50)
-    photo = models.ImageField(upload_to='image/')
+    photo = models.ImageField(default='default.jpg', upload_to='image/')
     comment = models.TextField()
     total_donated = models.IntegerField(default=0)
 
