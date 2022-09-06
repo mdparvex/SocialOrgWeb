@@ -17,7 +17,7 @@
                             </div>
                             <div class="item">
                                 <div class="text">
-                                    <h3>POOR IN SOCITY NEED YOUR HELP</h3>
+                                    <h3>POOR IN THE SOCITY NEED YOUR HELP</h3>
                                     <p>Poor peoples are a part of our socity.Poor people in society apart from many opportunities. Your donation can make them smile. We should help them to live properly.<br> Donate them as your effort </p>
                                     <h5 class="white-button"><a href="{%url "donate"%}">DONATE NOW</a></h5>
                                     <h5><a href="{%url "contact"%}">CONTACT US</a></h5>
@@ -88,12 +88,12 @@
                         <h3>POOR IN SOCITY NEED YOUR HELP</h3>
                         <p>Poor peoples are a part of our socity. We should help them to live properly.<br> Donate them as your effort</p>
                         <div class="progress-text">
-                            <p class="progress-top">24%</p>
+                            <p class="progress-top">{{progress}}%</p>
                             <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:24%"></div>
+                                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="{{progress}}"></div>
                             </div>
-                            <p class="progress-left">Raised: $100</p>
-                            <p class="progress-right">Goal: $2400</p>
+                            <p class="progress-left">Raised: {{argentDonation.ammount_raised}}BDT</p>
+                            <p class="progress-right">Goal: 50,000BDT</p>
                         </div>
                         <h2><a href="{%url "donate"%}">DONATE NOW</a></h2>
                     </div>

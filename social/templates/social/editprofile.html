@@ -4,13 +4,13 @@
 {%block home%}
     <style>
         .user {
-        height: 800px;
+        height: 930px;
     }
 
     .user .user_input {
         background: #01d262 none repeat scroll 0 0;
         float: left;
-        height: 800px;
+        height: 930px;
         text-align: center;
         width: 100%;
     }
@@ -25,7 +25,7 @@
         text-align: center;
     }
     .user .user_input h5 {
-    margin: 65px auto 0;
+    margin: 10px auto 0;
     max-width: 500px;
 }
 
@@ -45,9 +45,17 @@
         padding: 17px 20px;
         width: 80%;
         height: 120px;
+        margin-right: 7px;
     }
 
     .user .user_input h5 input[type="text"] {
+        font-family: "Roboto", sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        color: #fff;
+        margin-right: 2%;
+    }
+    .user .user_input h5 input[type="email"] {
         font-family: "Roboto", sans-serif;
         font-size: 15px;
         font-weight: 400;
@@ -62,15 +70,6 @@
         margin-right: 2%;
         margin-left: 10%;
         padding-left:20%;
-    }
-    
-
-    .user .user_input h5 input[type="email"] {
-        font-family: "Roboto", sans-serif;
-        font-size: 15px;
-        font-weight: 400;
-        color: #fff;
-        margin-left: 2%;
     }
 
     .user .user_input input[type="submit"] {
@@ -95,23 +94,37 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="user_input">
-                            <h2>Get In Touch <br> Contact for any query</h2>
-                            <form action="" method="POST">
+                            <h2>Edit Your Profile</h2>
+                            {% for message in messages%}
+                                <p style="color:red;">{{message}}</p>
+                            {%endfor%}
+                            <form action="" method="POST" enctype="multipart/form-data">
                             {%csrf_token%}
                                 <h5>
-                                    <input type="text" name="name" placeholder="Enter your name">
+                                    <input type="text" name="name" Value="{{pr.name}}">
                                 </h5>
                                 <h5>
-                                    <input type="text" name="email" placeholder="Enter your email">
+                                    <input type="email" name="email" Value="{{pr.email}}">
                                 </h5>
                                 <h5>
-                                    <input type="text" name="subject" placeholder="Subject of your Message">
+                                    <input type="text" name="address" value="{{pr.address}}">
                                 </h5>
                                 <h5>
-                                    <textarea name="message" placeholder="Write your Messege"></textarea>
+                                    <input type="text" name="phone" value="{{pr.phone}}">
                                 </h5>
-                               
-                                <input type="submit" value="Send messege">
+                                
+                                <h5>
+                                    <input type="text" name="proffession" value="{{pr.proffesion}}">
+                                </h5>
+                                <h5>
+                                    <textarea name="comment" >{{pr.comment}}</textarea>
+                                </h5>
+                                <h5>
+                                    <label for="image">Upload your new picture</label>
+                                    <input type="file" name="image" placeholder="Your photo" >
+                                </h5>
+                             
+                                <input type="submit" value="SUBMIT">
                             </form>
                         </div>
                         
@@ -120,5 +133,5 @@
                 </div>
             </div>
         </section>
+        <br>
 {%endblock%}
-

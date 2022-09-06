@@ -11,7 +11,15 @@ def index(request):
         pr = Profile.objects.get(user=request.user)
     except:
         pr = None
-    return render(request, 'social/index.html', {'pr':pr})
+    argentDonation = Event.objects.get(event_name='POOR IN SOCITY NEED YOUR HELP')
+    progress = (int(argentDonation.ammount_raised)/50000)*100
+     
+    contex = {
+            'pr':pr, 
+            'argentDonation':argentDonation,
+            'progress':progress
+        }
+    return render(request, 'social/index.html', contex)
 
 def register(request):
     if request.method=="POST":
@@ -54,12 +62,6 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('login')
-def contact(request):
-    try:
-        pr = Profile.objects.get(user=request.user)
-    except: #Profile.DoesNotExist
-        pr = None
-    return render(request, 'social/contact.html',{'pr':pr})
 
 @login_required
 def join(request):
@@ -84,30 +86,15 @@ def join(request):
     except:
         pr = None
     if pr is not None:
-        return render(request, 'social/profile.html', {'pr':pr})
+        return render(request, 'social/authuserprofile.html', {'pr':pr})
     
     
     return render(request, 'social/join.html')
 
-def causes(request):
-    try:
-        pr = Profile.objects.get(user=request.user)
-    except:
-        pr = None
-    return render(request, 'social/causes.html',{'pr':pr})
-
-def about(request):
-    try:
-        pr = Profile.objects.get(user=request.user)
-    except Profile.DoesNotExist:
-        pr = None
-
-
-    return render(request, 'social/about.html', {'pr':pr})
-
-
+@login_required
 def donate(request):
     event = Event.objects.all()
+    profile = Profile.objects.all().order_by('-total_donated')[:3]
     try:
         pr = Profile.objects.get(user=request.user)
     except:
@@ -132,7 +119,7 @@ def donate(request):
         return redirect('donate')
         
 
-    return render(request, 'social/donate.html', {'pr':pr, "event":event})
+    return render(request, 'social/donate.html', {'pr':pr, "event":event, 'profile':profile})
 
 def members(request):
     try:
@@ -140,6 +127,9 @@ def members(request):
     except:
         pr = None
     userprof = Profile.objects.all()
+    if 'search' in request.GET:
+        search_term = request.GET['search']
+        userprof = Profile.objects.filter(name__icontains=search_term)
     
     return render(request, 'social/members.html', {'pr':pr, 'userprof':userprof})
 
@@ -148,8 +138,8 @@ def profile(request,uid):
         pr = Profile.objects.get(pk=uid)
     except:
         pr = None
-    user=User.objects.get(username=pr.user)
-    return render(request, 'social/profile.html', {'pr':pr, 'user':user})
+    #user=User.objects.get(username=request.user.username)
+    return render(request, 'social/profile.html', {'pr':pr})
 
 def history(request, id):
     try:
@@ -157,15 +147,77 @@ def history(request, id):
     except:
         pr = None
     user = User.objects.get(pk=id)
-    payment = Payment.objects.filter(user=user)
+    payment = Payment.objects.filter(user=user).order_by('-date')[:30]
     return render(request, 'social/history.html', {'pr':pr, 'payment':payment ,'user':user})
 
+@login_required
+def editprofile(request):
+    pr = Profile.objects.get(user=request.user)
+    if request.method=='POST':
+        if request.FILES.get('image') !=None:
+            image=request.FILES.get('image')
+        else:
+            image = pr.photo
+        pr.name = request.POST['name']
+        pr.email=request.POST['email']
+        pr.address = request.POST['address']
+        pr.phone = request.POST['phone']
+        pr.profession = request.POST['proffession']
+        pr.comment = request.POST['comment']
+        pr.photo = image
+        pr.save()
+        return redirect('profile', uid=pr.id)
+    return render(request, 'social/editprofile.html', {'pr':pr})
+def causes(request):
+    try:
+        pr = Profile.objects.get(user=request.user)
+    except:
+        pr = None
+    
+    ammount1 = Event.objects.get(event_name='ORPHAN NEED YOUR HELP').ammount_raised
+    ammount2 = Event.objects.get(event_name='POOR IN SOCITY NEED YOUR HELP').ammount_raised
+    ammount3 = Event.objects.get(event_name='EID FASTIVE DONATION').ammount_raised
+    ammount4 = Event.objects.get(event_name='MADRASHA NEED YOUR HELP').ammount_raised
+
+    raised1 = (ammount1/50000)*100
+    raised2 = (ammount2/50000)*100
+    raised3 = (ammount3/50000)*100
+    raised4 = (ammount4/50000)*100
+
+    context = {
+        'pr':pr,
+        'ammount1':ammount1,
+        'ammount2':ammount2,
+        'ammount3':ammount3,
+        'ammount4':ammount4,
+        'raised1': raised1,
+        'raised2': raised2,
+        'raised3': raised3,
+        'raised4': raised4,
+
+        }
+    return render(request, 'social/causes.html',context)
+
+def about(request):
+    try:
+        pr = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        pr = None
+    return render(request, 'social/about.html', {'pr':pr})
 def volunteering(request):
     try:
         pr = Profile.objects.get(user=request.user)
     except:
         pr = None
     return render(request, 'social/volunteering.html', {'pr':pr})
+
+def contact(request):
+    try:
+        pr = Profile.objects.get(user=request.user)
+    except: #Profile.DoesNotExist
+        pr = None
+
+    return render(request, 'social/contact.html',{'pr':pr})
 
 
 

@@ -11,9 +11,10 @@
     .donors .donors_input {
         background: #01d262 none repeat scroll 0 0;
         float: left;
-        height: 800px;
+        min-height:600px;
+        height: 100%;
         text-align: center;
-        width: 50%;
+        width: 100%;
     }
 
     .donors .donors_input h2,
@@ -39,37 +40,24 @@
         font-size: 25px;
         font-weight: bold;
     }
-
-    .donors .donors_image {
-        background: #eceff1 none repeat scroll 0 0;
-        float: left;
-        width: 50%;
-        height: 800px;
+    .donors .donors_input table{
+        width:100%;
     }
-
-    .donors .donors_image .item {
-        text-align: center;
+    .donors .donors_input table, th{
+        text-align:center;
+        font-size:20px;
     }
-
-    .donors .donors_image .item img {
-        border-radius: 10px;
-        margin: 0 auto 30px;
-        width: 300px;
-        box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.15);
+    .donors .donors_input table, th, td {
+      border: 2px solid black;
+      border-collapse: collapse;
+      border-radius: 10px;
+      font-family: "Roboto", sans-serif;
+      
+      
     }
+    
 
-    .donors .donors_image .item h3 {
-        font-family: "Roboto", sans-serif;
-        font-size: 20px;
-        font-weight: 500;
-    }
-
-    .donors .donors_image .item p {
-        font-family: "Roboto", sans-serif;
-        font-size: 15px;
-        font-weight: 400;
-        margin: 10px 0 75px;
-    }
+    
 </style>
 </style>
 
@@ -80,9 +68,34 @@
                         <div class="donors_input">
                             <h2>Donation History</h2>
                             <hr>
+                            <table>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>PaymentWay</th>
+                                    <th>TrxID</th>
+                                    <th>ammount</th>
+                                    <th>Date</th>
+                                    <th>Varification</th>
+                                  </tr>
                             {% for p in payment%}
-                                <h4>{{p.ammount}}</h4>
+                                  
+                                  <tr>
+                                    <td>{{p.event}}</td>
+                                    <td>{{p.payment_way}}</td>
+                                    <td>{{p.trxid}}</td>
+                                    <td>{{p.ammount}}</td>
+                                    <td>{{p.date}}</td>
+                                    {%if p.varified%}
+                                        <td>Confirmed</td>
+                                    {%else%}
+                                        <td>Panding</td>
+                                    {%endif%}
+                                  </tr>
                             {%endfor%}
+                            </table>
+                            
+                                <h4>{{p.ammount}}</h4>
+                            
                             
                         </div>
                 
@@ -91,16 +104,5 @@
             </div>
         </section>
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+       
 {%endblock%}
