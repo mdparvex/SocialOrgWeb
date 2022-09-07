@@ -243,7 +243,7 @@ def causes(request):
 def about(request):
     try:
         pr = Profile.objects.get(user=request.user)
-    except Profile.DoesNotExist:
+    except:
         pr = None
     return render(request, 'social/about.html', {'pr':pr})
 def volunteering(request):
