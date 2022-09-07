@@ -49,7 +49,7 @@ class Event(models.Model):
     def __str__(self):
         return self.event_name
 
-class Payment(models.Model):
+class Donate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     payment_way = models.CharField(max_length=20)

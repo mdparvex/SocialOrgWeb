@@ -9,7 +9,7 @@ urlpatterns = [
     path('logout', views.logout, name="logout"),
     path('join', views.join, name="join"),
     path('members', views.members, name="members"),
-    path('<int:uid>', views.profile, name='profile'),
+    path('member/<int:uid>', views.profile, name='profile'),
     path('history/<int:id>', views.history, name='history'),
     path('edit', views.editprofile, name='editprofile'),
 

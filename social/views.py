@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Profile, Payment, Event, Contact
+from .models import Profile, Donate, Event, Contact
 
 # Create your views here.
 def index(request):
@@ -77,7 +77,7 @@ def join(request):
         Ucomment = request.POST['comment']
         Uphoto = request.FILES.get('image')
 
-        if (len(Uname) and len(email) and len(Uaddress) and len(Uphone) and len(Uprofession))<5:
+        if (len(Uname) and len(email) and len(Uaddress) and len(Uphone) and len(Uprofession))<2:
             messages.info(request, 'Information wrong or any field is blank')
             return redirect('join')
         if Uphoto is None:
@@ -106,6 +106,7 @@ def donate(request):
         pr = Profile.objects.get(user=request.user)
     except:
         pr = None
+    
     if request.method=='POST':
         user = User.objects.get(username=request.user.username)
         paymentway = request.POST['paymentway']
@@ -113,27 +114,41 @@ def donate(request):
         ammount = request.POST['ammount']
         date = request.POST['date']
 
+        panding_num = len(Donate.objects.filter(user=request.user, varified=False).all())
+        if panding_num>1:
+            messages.info(request, 'Sorry you are not able to donate now, You have more than two panding donation, Contact with admin to confirm your previous donation !!!!!!')
+            return redirect('donate')
+
+        if (len(paymentway) and len(trxid) and len(ammount))<1 or date is None:
+            messages.info(request, 'sorry, Any field is blank !!!!!!')
+            return redirect('donate')
+
         for e in event:
             if e.event_name == request.POST['eventname']:
                 event=Event.objects.get(event_name=e.event_name)
                 event.ammount_raised = int(event.ammount_raised)+int(ammount)
+        
         if pr is None:
-            d= Payment(user=user, event=event, payment_way=paymentway, trxid=trxid, ammount=ammount, date=date)
+            d= Donate(user=user, event=event, payment_way=paymentway, trxid=trxid, ammount=ammount, date=date)
             d.save()
             event.save()
             messages.info(request, 'Donation sucessfull !!!')
             return redirect('donate')
             
         pr.total_donated = int(pr.total_donated)+int(ammount)
-        d= Payment(user=user, event=event, payment_way=paymentway, trxid=trxid, ammount=ammount, date=date)
+        d= Donate(user=user, event=event, payment_way=paymentway, trxid=trxid, ammount=ammount, date=date)
         d.save()
         pr.save()
         event.save()
         messages.info(request, 'Donation sucessfull !!!')
         return redirect('donate')
-        
+    context={
+        'pr':pr, 
+        "event":event, 
+        'profile':profile
+        }
 
-    return render(request, 'social/donate.html', {'pr':pr, "event":event, 'profile':profile})
+    return render(request, 'social/donate.html', context)
 
 def members(request):
     try:
@@ -145,7 +160,11 @@ def members(request):
         search_term = request.GET['search']
         userprof = Profile.objects.filter(name__icontains=search_term)
     
-    return render(request, 'social/members.html', {'pr':pr, 'userprof':userprof})
+    context = {
+        'pr':pr, 
+        'userprof':userprof
+        }
+    return render(request, 'social/members.html', context)
 
 def profile(request,uid):
     try:
@@ -153,7 +172,11 @@ def profile(request,uid):
     except:
         pr = None
     user=User.objects.get(username=pr.user)
-    return render(request, 'social/profile.html', {'pr':pr, 'user':user})
+    context = {
+        'pr':pr, 
+        'user':user
+        }
+    return render(request, 'social/profile.html', context)
 
 def history(request, id):
     try:
@@ -161,8 +184,13 @@ def history(request, id):
     except:
         pr = None
     user = User.objects.get(pk=id)
-    payment = Payment.objects.filter(user=user).order_by('-date')[:30]
-    return render(request, 'social/history.html', {'pr':pr, 'payment':payment ,'user':user})
+    payment = Donate.objects.filter(user=user).order_by('-date')[:30]
+    context = {
+        'pr':pr, 
+        'payment':payment ,
+        'user':user
+        }
+    return render(request, 'social/history.html', context)
 
 @login_required
 def editprofile(request):
